@@ -1,6 +1,6 @@
 ---
 name: pre-commit-check
-description: "发布前强制检查（Pre-commit release validation pipeline）: 在发布/部署前强制运行，执行语言特定测试、安全漏洞扫描并生成结构化提交信息。当用户请求 publish、release、deploy 或提及发布前检查、pre-flight validation、commit readiness、代码质量门禁时必须触发。此检查为发布前的强制环节，不可跳过。"
+description: "发布前强制检查（Pre-commit release validation pipeline）: 在代码提交（git commit / git push）或发布/部署前强制运行，执行语言特定测试、安全漏洞扫描并生成结构化提交信息。当用户执行或提及 commit、push、publish、release、deploy，或提及发布前检查、pre-flight validation、commit readiness、代码质量门禁时必须触发。此检查为发布前的强制环节，不可跳过。"
 rootUrl: https://raw.githubusercontent.com/Alpaca233114514/pre-commit-check/main/SKILL.md
 ---
 
