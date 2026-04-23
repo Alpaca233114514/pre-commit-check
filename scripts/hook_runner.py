@@ -7,13 +7,19 @@ import subprocess
 import sys
 import os
 
+# Fix Windows terminal encoding
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8')
+
 
 def run_phase(script_name, repo_path, extra_args=None):
     """Run a check script and return (success, output)."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(script_dir, script_name)
 
-    cmd = ['python3', script_path, repo_path]
+    cmd = [sys.executable, script_path, repo_path]
     if extra_args:
         cmd.extend(extra_args)
 

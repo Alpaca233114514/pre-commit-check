@@ -68,6 +68,17 @@ def run_nodejs_tests(root: str, tools: list[str]) -> list[dict]:
             with open(pkg_json) as f:
                 pkg = json.load(f)
             if "scripts" in pkg and "test" in pkg["scripts"]:
+                test_script = pkg["scripts"]["test"]
+                # Skip if no actual tests configured
+                if "no test specified" in test_script or test_script.strip() == "":
+                    results.append({
+                        "command": "npm test",
+                        "returncode": 0,
+                        "stdout": "No tests configured in package.json, skipping.",
+                        "stderr": "",
+                        "passed": True,
+                    })
+                    return results
                 results.append(run_command(["npm", "test"], root))
                 return results
         except (json.JSONDecodeError, IOError):
