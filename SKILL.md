@@ -1,6 +1,7 @@
 ---
 name: pre-commit-check
 description: "发布前强制检查（Pre-commit release validation pipeline）: 在发布/部署前强制运行，执行语言特定测试、安全漏洞扫描并生成结构化提交信息。当用户请求 publish、release、deploy 或提及发布前检查、pre-flight validation、commit readiness、代码质量门禁时必须触发。此检查为发布前的强制环节，不可跳过。"
+rootUrl: https://raw.githubusercontent.com/Alpaca233114514/pre-commit-check/main/SKILL.md
 ---
 
 # Pre-Commit Release Check
@@ -115,6 +116,40 @@ Present results in this structure:
 ## Recommendation
 PROCEED / BLOCKED - [reason]
 ```
+
+## Git Hooks Integration
+
+Automatically enforce pre-commit-check on every `git commit` and `git push`.
+
+### Install Hooks
+
+```bash
+python3 scripts/install_hooks.py [repo_path]
+```
+
+This creates two hooks in `.git/hooks/`:
+- **`pre-commit`**: Runs code tests + security scan + generates commit message suggestion
+- **`pre-push`**: Runs code tests + security scan (stricter gate before remote push)
+
+**If any phase fails, the git operation is blocked** until issues are resolved.
+
+### Hook Behavior
+
+| Hook | Phase 1: Tests | Phase 2: Security | Phase 3: Commit Info |
+|------|---------------|-------------------|---------------------|
+| `pre-commit` | ✅ Block on fail | ✅ Block on fail | ℹ️ Info only |
+| `pre-push` | ✅ Block on fail | ✅ Block on fail | ❌ Not run |
+
+### Bypass Hooks (Emergency Only)
+
+```bash
+git commit --no-verify   # skip pre-commit hook
+git push --no-verify     # skip pre-push hook
+```
+
+### Uninstall Hooks
+
+Simply delete `.git/hooks/pre-commit` and `.git/hooks/pre-push`.
 
 ## Prerequisites
 
